@@ -1,0 +1,33 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-size: 1.6rem;
+}
+
+nav {
+    margin: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+nav ul {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+}
+a {
+    color: black;
+    text-decoration: none;
+    padding: 5px;
+    font-size: 1.3rem;
+}
+
+#Title {
+    color: aliceblue;
+    padding: 50px;
+    font-size: 2rem;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.65);
+}
