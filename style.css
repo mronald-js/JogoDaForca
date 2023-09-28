@@ -5,16 +5,15 @@
 
 body {
     font-size: 1.6rem;
+    height: 100%;
 }
 
 nav {
-    margin: 20px;
+    margin: 10px;
     display: flex;
-    justify-content: space-between;
 }
 nav ul {
     display: flex;
-    justify-content: space-around;
     list-style: none;
 }
 a {
@@ -30,4 +29,68 @@ a {
     font-size: 2rem;
     text-align: center;
     background-color: rgba(0, 0, 0, 0.65);
+}
+
+
+#gameInterface {
+    text-align: center;
+    padding: 25px;
+}
+
+#word {
+    padding: 20px;
+    font-size: 5rem;
+}
+
+#gallow {
+    position: relative;
+
+}
+
+#boneco img {
+    top: 90px;
+    right: 50%;
+    left: 47.5%;
+    position: absolute;
+}
+
+#guess input {
+    width: 40px;
+    text-align: center;
+    font-weight: bold;
+    padding: 5px;
+    font-size: 1.6rem;
+}
+
+#guess button {
+    padding: 15px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+#wrongGuesses {
+    /* display: none; */
+    padding: 20px;
+    width: fit-content;
+    text-align: start;
+    margin: 25px auto;
+    color: whitesmoke;
+    border-radius: 30px;
+    background-color: rgba(255, 0, 0, 0.5);
+}
+
+#wrongGuesses p {
+    color: black;
+    font-weight: bold;
+    font-size: 1.6rem;
+}
+
+footer {
+    position: absolute;
+    color: aliceblue;
+    width: 100%;
+    bottom: 0;
+    padding: 25px;
+    text-align: end;
+    background-color: black;
 }
