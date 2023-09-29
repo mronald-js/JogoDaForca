@@ -11,6 +11,14 @@
         padding: 7.5px;
         margin-left: 15px;
     }
+
+    #boneco img {
+        top: 90px;
+        right: 33%;
+        left: 23%;
+        position: absolute;
+    }
+
     label {
         display: flex;
         align-items: center;

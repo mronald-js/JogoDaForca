@@ -20,7 +20,7 @@ let errors = 0;
 
 function checarPalavra(word) {
     geraPalavraAleatoria().then(()=>{
-        if(word === randomWord){
+        if(word.toLowerCase() === randomWord){
             setTimeout(() => {
                 palavra.innerHTML = `<p>${randomWord}</p><p style="color:green">Parabéns, você venceu!</p>`
                 esconder()
@@ -39,7 +39,6 @@ function exibe(){
 }
 
 async function geraPalavraAleatoria() {
-    console.log(randomWord)
     if (randomWord) {
       // Se a palavra já foi buscada antes, retorna a palavra armazenada
       return randomWord;
@@ -59,6 +58,8 @@ async function geraPalavraAleatoria() {
     }
 }  
 function msgDerrota() {
+    campoPalavra.value = ''
+    wrongGuesses.style.display = 'none'
     setTimeout(() => {
         geraPalavraAleatoria().then(() => {
             return palavra.innerHTML += `<p style="color:red; background-color:rgba(0,0,0,0.25); padding:20px; width:100%; margin-top:20px">Wasted</p><p style="color:black">Palavra Correta: <span style="color:green">${randomWord}</span></p>`
@@ -69,9 +70,12 @@ function msgDerrota() {
 function reset() {
     errors = 0;
     randomWord = '';
+    campoPalavra.value = '';
     palavra.innerHTML = '';
     wrongGuesses.innerHTML = 'Adivinhações Erradas';
-    stickBox.innerHTML = '';
+    letterGuess.value = ''
+    stickBox.innerHTML = ''
+    wrongGuesses.style.display = 'block'
     geraPalavraAleatoria().then(() => {
         for (let letter of randomWord) {
             palavra.textContent += '_ '
@@ -94,9 +98,8 @@ letterGuess.addEventListener('keypress', (event) => {
     if(keyName === 'Enter' && errors < 7){
         let k = 0, counter = 0;
         geraPalavraAleatoria().then(()=>{
-            console.log(randomWord, letterGuess.value)
             for(let i = 0; i<randomWord.length; i++){
-                if (letterGuess.value === randomWord[i]){
+                if (letterGuess.value.toLowerCase() === randomWord[i]){
                     wordToGuess[k] = randomWord[i];
                     counter++;
                 } else wordToGuess
@@ -131,6 +134,7 @@ letterGuess.addEventListener('keypress', (event) => {
             else{
                 palavra.textContent = wordToGuess.join('')
                 checarPalavra(wordToGuess.join(''))
+                letterGuess.value = ''
             }
         })
     }
@@ -152,6 +156,7 @@ campoPalavra.addEventListener('keypress', (event) => {
             msgDerrota();
             esconder();
             btnReset.style.display = 'inline-block';
+            letterGuess.value = ''
         }
     }
 });
@@ -174,6 +179,7 @@ guessCampoBtn.addEventListener('click', (event) => {
     }
     else{
         palavra.textContent = wordToGuess.join('')
+        letterGuess.value = ''
     }
 });
 
@@ -182,7 +188,7 @@ guessBtn.addEventListener('click', (event) => {
     let k = 0, counter = 0;
     geraPalavraAleatoria().then(()=>{
         for(let i = 0; i<randomWord.length; i++){
-            if (letterGuess.value === randomWord[i]){
+            if (letterGuess.value.toLowerCase() === randomWord[i]){
                 wordToGuess[k] = randomWord[i];
                 counter++;
             } else wordToGuess
@@ -219,6 +225,7 @@ guessBtn.addEventListener('click', (event) => {
         else{
             palavra.textContent = wordToGuess.join('')
             checarPalavra(wordToGuess.join(''))
+            letterGuess.value = ''
         }
     })
 });
