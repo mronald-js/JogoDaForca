@@ -3,9 +3,24 @@
     box-sizing: border-box;
 }
 
+body::-webkit-scrollbar {
+  width: 0.001em; /* Largura da barra de rolagem personalizada */
+}
+
+body::-webkit-scrollbar-track {
+  background-color: transparent; /* Cor de fundo da barra de rolagem */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #888; /* Cor da barra de rolagem */
+}
+
 body {
     font-size: 1.6rem;
-    height: 100%;
+    min-height: 100vh;
+    padding-bottom: 2rem;
+    scrollbar-width: thin; /* Tornar a barra de rolagem visível em navegadores compatíveis */
+    scrollbar-color: #888 transparent;
 }
 
 nav {
@@ -23,6 +38,10 @@ a {
     font-size: 1.3rem;
 }
 
+img, p {
+    transition: opacity 0.5s;
+}
+
 #Title {
     color: aliceblue;
     padding: 50px;
@@ -38,39 +57,81 @@ a {
 }
 
 #word {
-    padding: 20px;
-    font-size: 5rem;
+    padding: 10px;
+    font-size: 3rem;
 }
 
 #gallow {
     position: relative;
-
+    margin-bottom: 4rem;
 }
 
 #boneco img {
     top: 90px;
     right: 50%;
-    left: 47.5%;
+    left: 50%;
     position: absolute;
+}
+
+input {
+    padding: 2.5px;
+    font-size: 1.6rem;
+    font-weight: bold;
 }
 
 #guess input {
     width: 40px;
     text-align: center;
-    font-weight: bold;
-    padding: 5px;
-    font-size: 1.6rem;
 }
 
-#guess button {
+#guess {
+    margin: 10px;
+}
+
+#reset {
+    display: none;
+    border-radius: 0;
+    width: 100%;
+    padding: 30px;
+}
+#reset:hover {
+    display: none;
+    background-color: #bc7700;
+    border-radius: 0;
+    width: 100%;
+    padding: 30px;
+}
+
+button {
     padding: 15px;
     border-radius: 20px;
+    font-size: 0.85rem;
+    color: aliceblue;
+    border: transparent;
+    font-weight: bold;
+    letter-spacing: 2px;
     cursor: pointer;
+}
+
+button:hover{
+    background-color: #bfbfbf;
+    color: black;
+    font-size: 1.2rem;
+    transition: ease 0.45s;
+}
+button:not(:hover) {
+    background-color: #8c5c5c;
+    transition: ease 0.45s;
+}
+
+#white-space {
+    height: 40px;
 }
 
 #wrongGuesses {
     /* display: none; */
     padding: 20px;
+    margin-bottom: 40px;
     width: fit-content;
     text-align: start;
     margin: 25px auto;
@@ -86,11 +147,14 @@ a {
 }
 
 footer {
-    position: absolute;
-    color: aliceblue;
-    width: 100%;
+    /* flex-shrink: 0; */
+    position: fixed;
     bottom: 0;
+    width: 100%;
     padding: 25px;
+    margin-top: 50px;
+    color: aqua;
     text-align: end;
+    z-index: 1000;  /* Garante que o footer fique no topo de outros elementos */
     background-color: black;
 }

@@ -1,0 +1,36 @@
+@media (max-width: 768px){
+    #word {
+        padding: 0;
+        font-size: 2.5rem;
+    }
+    body {
+        font-size: 1.4rem;
+    }
+    #guess button {
+        border-radius: 0;
+        padding: 7.5px;
+        margin-left: 15px;
+    }
+    label {
+        display: flex;
+        align-items: center;
+    }
+    input {
+        font-size: 1.2rem;
+        align-self: flex-start;
+    }
+    #guess {
+        margin-top: 40px;
+        display: flex;
+        justify-content: space-between;
+    }
+    #guessWordTry {
+        display: flex;
+        padding: 10px;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    #guessWordTry button {
+        margin-top: 20px;
+    }
+}

@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Jogo Da Forca</title>
         <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="media.css">
     </head>
     <body>
 
@@ -38,7 +39,15 @@
                 <div id="guess">
                     <label for="letter">Chute uma letra:</label>
                     <input type="text" id="letter" maxlength="1">
-                    <button class="button">Adivinhar</button>
+                    <button>Chutar</button>
+                </div>
+                
+                <button id="reset" onclick="reset()">Reniciar</button>
+                
+                <div id="guessWordTry">
+                    <label for="wordTry">Tente adivinhar a palavra:</label>
+                    <input type="text" id="wordTry">
+                    <button>Tentar adivinhar</button>
                 </div>
                 
                 <div id="wrongGuesses">
@@ -48,6 +57,10 @@
             </section>
 
         </main>
+
+        <section id="white-space">
+
+        </section>
 
         <!-- Rodapé -->
         <footer>
