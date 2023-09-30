@@ -32,6 +32,7 @@ difficulties.addEventListener('click', async (e) => {
         for (let i = 0; i < sections.length; i++) {
             sections[i].style.display = 'block';
         }
+        difficulties.style.display = 'none';
 
         for (let i = 0; i < randomWord.length; i++) {
             palavra.textContent += '_ ';
@@ -118,6 +119,7 @@ function reset() {
     letterGuess.value = ''
     stickBox.innerHTML = ''
     wrongGuesses.style.display = 'block'
+    difficulties.style.display = 'flex'
     geraPalavraAleatoria().then(() => {
         for (let letter of randomWord) {
             palavra.textContent += '_ '
