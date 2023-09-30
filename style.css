@@ -18,6 +18,7 @@ body::-webkit-scrollbar-thumb {
 body {
     font-size: 1.6rem;
     min-height: 100vh;
+    width: 100%;
     padding-bottom: 2rem;
     scrollbar-width: thin; /* Tornar a barra de rolagem visível em navegadores compatíveis */
     scrollbar-color: #888 transparent;
@@ -137,6 +138,55 @@ button:not(:hover) {
 
 #white-space {
     height: 95px;
+}
+
+#difficulty {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#difficulty ul {
+    display: flex;
+    width: 100%;
+    padding: 0;
+    list-style: none;
+    flex-direction: column;
+}
+
+#difficulty li {
+    padding: 40px;
+    width: 100%;
+    text-align: center;
+    margin: 20px 0px;
+    cursor: pointer;
+}
+
+#difficulty li:hover {
+    background-color: #bfbfbf;
+    color: black;
+    font-size: 2.4rem;
+    transition: ease 0.45s;
+}
+
+section:not(#difficulty){
+    display: none;
+}
+
+.easy:not(:hover) {
+    background-color: rgb(51, 234, 0);
+}
+.medium:not(:hover) {
+    background-color: rgb(200, 223, 0);
+}
+.hard:not(:hover) {
+    background-color: rgb(181, 30, 0);
+}
+
+#difficulty li:not(:hover) {
+    transition: ease 0.45s;
 }
 
 #wrongGuesses {

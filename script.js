@@ -13,9 +13,35 @@ const campoPalavra = document.getElementById('wordTry');
 const campoTryWord = document.getElementById('guessWordTry')
 const guessCampoBtn = document.getElementById('guessWordTry').querySelector('button');
 
+const sections = document.querySelectorAll('section')
+console.log(sections)
 
-let randomWord = '', wordToGuess;
-let errors = 0;
+const difficulties = document.getElementById('difficulty')
+const easyDifficulty = document.querySelector('.easy')
+const medDifficulty = document.querySelector('.medium')
+const hardDifficulty = document.querySelector('.hard')
+
+let randomWord = '', wordToGuess, maxLetters, minLetters, errors = 0, difficulty;
+
+difficulties.addEventListener('click', async (e) => {
+    difficulty = e.target.className;
+    try {
+        await geraPalavraDeAcordoComDificuldade();
+        console.log(randomWord);
+
+        for (let i = 0; i < sections.length; i++) {
+            sections[i].style.display = 'block';
+        }
+
+        for (let i = 0; i < randomWord.length; i++) {
+            palavra.textContent += '_ ';
+        }
+        wordToGuess = palavra.firstChild.nodeValue.split("");
+    } catch (error) {
+        console.error('Erro:', error);
+    }
+});
+
 
 
 function checarPalavra(word) {
@@ -38,25 +64,41 @@ function exibe(){
     return campoLetra.style.display = 'block', campoTryWord.style.display = 'block'
 }
 
-async function geraPalavraAleatoria() {
+async function geraPalavraDeAcordoComDificuldade() {
     if (randomWord) {
-      // Se a palavra já foi buscada antes, retorna a palavra armazenada
-      return randomWord;
+        // Se a palavra já foi buscada antes, retorna a palavra armazenada
+        return;
     }
-  
+
     try {
-      const response = await fetch('https://api.dicionario-aberto.net/random');
-      if (!response.ok) {
-        throw new Error('Erro na solicitação da API');
-      }
-      const data = await response.json();
-      randomWord = data.word;
-      return randomWord;
+        const response = await fetch('https://api.dicionario-aberto.net/random');
+        if (!response.ok) {
+            throw new Error('Erro na solicitação da API');
+        }
+        const data = await response.json();
+        const candidateWord = data.word;
+
+        if (difficulty === 'easy') {
+            if (candidateWord.length < 3 || candidateWord.length > 5) {
+                return geraPalavraDeAcordoComDificuldade();
+            }
+        } else if (difficulty === 'medium') {
+            if (candidateWord.length < 6 || candidateWord.length > 8) {
+                return geraPalavraDeAcordoComDificuldade();
+            }
+        } else if (difficulty === 'hard') {
+            if (candidateWord.length < 9) {
+                return geraPalavraDeAcordoComDificuldade();
+            }
+        }
+
+        randomWord = candidateWord;
     } catch (error) {
-      console.error('Erro:', error);
-      throw error;
+        console.error('Erro:', error);
+        throw error;
     }
-}  
+}
+
 function msgDerrota() {
     campoPalavra.value = ''
     wrongGuesses.style.display = 'none'
@@ -84,14 +126,6 @@ function reset() {
     exibe()
     btnReset.style.display = 'none';
 }
-
-geraPalavraAleatoria().then(() => {
-    for (let i = 0; i < randomWord.length; i++) {
-        palavra.textContent += '_ '
-    }
-    wordToGuess = palavra.firstChild.nodeValue.split("");
-  });
-
 
 letterGuess.addEventListener('keypress', (event) => {
     const keyName = event.key;
