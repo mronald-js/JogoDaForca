@@ -1,46 +1,48 @@
+// Elementos HTML
 const palavra = document.getElementById('word');
-
 const campoLetra = document.getElementById('guess');
 const letterGuess = document.getElementById('letter');
 const wrongGuesses = document.getElementById('wrongGuesses');
-
 const stickPhase = document.createElement("img");
 const stickBox = document.getElementById("boneco");
 const guessBtn = campoLetra.querySelector('button');
-
 const btnReset = document.getElementById('reset');
 const campoPalavra = document.getElementById('wordTry');
 const campoTryWord = document.getElementById('guessWordTry')
 const guessCampoBtn = document.getElementById('guessWordTry').querySelector('button');
-
 const sections = document.querySelectorAll('section')
 const contact = document.getElementById('contact')
-
 const difficulties = document.getElementById('difficulty')
 const easyDifficulty = document.querySelector('.easy')
 const medDifficulty = document.querySelector('.medium')
 const loading = document.getElementById('loadingPage')
 
+// Variáveis de jogo
 let randomWord = '', wordToGuess, maxLetters, minLetters, errors = 0, difficulty;
 
+// Manipulador de eventos para selecionar a dificuldade
 difficulties.addEventListener('click', async (e) => {
-
     difficulty = e.target.className;
-    if(difficulty === 'easy' || difficulty === 'medium' || difficulty === 'hard'){
+
+    // Verifique se a dificuldade é 'easy', 'medium' ou 'hard'
+    if (difficulty === 'easy' || difficulty === 'medium' || difficulty === 'hard') {
         try {
-            
             await geraPalavraDeAcordoComDificuldade();
-            
-            for (let i = 0; i < sections.length; i++) {
+
+            // Exibe as seções relevantes e oculta o carregamento e as dificuldades
+            for (let i = 0; i < sections.length; i++)
                 sections[i].style.display = 'block';
-            }
-            for (let i = 0; i < randomWord.length; i++) {
-                palavra.textContent += '_ ';
-            }
+
             loading.style.display = 'none'
             difficulties.style.display = 'none';
             contact.style.display = 'flex'
             document.getElementById('white-space').style.display = 'block'
+
+            // Inicializa a palavra com espaços em branco
+            for (let i = 0; i < randomWord.length; i++)
+                palavra.textContent += '_ ';
+
+            // Armazena a palavra a ser adivinhada em um array
             wordToGuess = palavra.firstChild.nodeValue.split("");
         } catch (error) {
             console.error('Erro:', error);
@@ -48,17 +50,16 @@ difficulties.addEventListener('click', async (e) => {
     }
 });
 
-
-
+// Função para verificar uma letra adivinhada
 function checarPalavra(word) {
-    geraPalavraDeAcordoComDificuldade().then(()=>{
+    geraPalavraDeAcordoComDificuldade().then(() => {
         let k = 0, counter = 0;
         for (let i = 0; i < randomWord.length; i++) {
-            if(word === randomWord) counter = randomWord.length;
+            if (word === randomWord) counter = randomWord.length;
             k += 2;
         }
 
-        if(counter === randomWord.length){
+        if (counter === randomWord.length) {
             setTimeout(() => {
                 palavra.innerHTML = `<p>${randomWord}</p><p style="color:green">Parabéns, você venceu!</p>`
                 esconder()
@@ -68,14 +69,16 @@ function checarPalavra(word) {
     })
 }
 
+// Funções de exibição e ocultação de campos de entrada
 function esconder() {
     return campoLetra.style.display = 'none', campoTryWord.style.display = 'none'
 }
 
-function exibe(){
+function exibe() {
     return campoLetra.style.display = 'block', campoTryWord.style.display = 'block'
 }
 
+// Função assíncrona para gerar uma palavra de acordo com a dificuldade
 async function geraPalavraDeAcordoComDificuldade() {
     if (randomWord) {
         // Se a palavra já foi buscada antes, retorna a palavra armazenada
@@ -84,10 +87,11 @@ async function geraPalavraDeAcordoComDificuldade() {
     try {
         loading.style.display = 'flex'
         difficulties.style.display = 'none';
+
         const response = await fetch('https://api.dicionario-aberto.net/random');
-        if (!response.ok) {
-            throw new Error('Erro na solicitação da API');
-        }
+
+        if (!response.ok) throw new Error('Erro na solicitação da API');
+
         const data = await response.json();
         const candidateWord = data.word;
 
@@ -110,15 +114,17 @@ async function geraPalavraDeAcordoComDificuldade() {
             default:
                 // Trate um caso em que difficulty não corresponda a 'easy', 'medium' ou 'hard' aqui, se necessário.
                 break;
-            }
-            
+        }
+        
         randomWord = candidateWord;
+
     } catch (error) {
         console.error('Erro:', error);
         throw error;
     }
 }
 
+// Função para exibir uma mensagem de derrota
 function msgDerrota() {
     campoPalavra.value = ''
     wrongGuesses.style.display = 'none'
@@ -129,6 +135,7 @@ function msgDerrota() {
     }, 10)
 }
 
+// Função de reinicialização do jogo
 function reset() {
     errors = 0;
     randomWord = '';
@@ -146,19 +153,23 @@ function reset() {
     btnReset.style.display = 'none';
 }
 
+// Manipulador de eventos para adivinhar uma letra
 letterGuess.addEventListener('keypress', (event) => {
     const keyName = event.key;
-    if(keyName === 'Enter' && errors < 7){
+
+    if (keyName === 'Enter' && errors < 7) {
         let k = 0, counter = 0;
-        geraPalavraDeAcordoComDificuldade().then(()=>{
-            for(let i = 0; i<randomWord.length; i++){
-                if (letterGuess.value.toLowerCase() === randomWord[i]){
+
+        geraPalavraDeAcordoComDificuldade().then(() => {
+            for (let i = 0; i < randomWord.length; i++) {
+                if (letterGuess.value.toLowerCase() === randomWord[i]) {
                     wordToGuess[k] = randomWord[i];
                     counter++;
                 } else wordToGuess
                 k += 2;
             }
-            if(counter === 0 && letterGuess.value != '') {
+
+            if (counter === 0 && letterGuess.value != '') {
                 const wrongParagraph = document.createElement('p');
                 let p = document.querySelector('p');
                 errors++;
@@ -166,25 +177,27 @@ letterGuess.addEventListener('keypress', (event) => {
                 stickBox.innerHTML = ""
                 stickPhase.src = `stickman/${errors}.png`;
                 stickPhase.style.opacity = '0';
+
                 setTimeout(function() {
                     stickPhase.style.opacity = "1";
                 }, 10);
+
                 stickBox.appendChild(stickPhase)
-    
-                if(wrongGuesses.contains(p)){
+
+                if (wrongGuesses.contains(p)) {
                     p.innerText += `, ${letterGuess.value}`
-                }else {
+                } else {
                     wrongGuesses.appendChild(wrongParagraph);
                     wrongParagraph.innerText += letterGuess.value
                 }
             }
-            if(errors === 7){
+
+            if (errors === 7) {
                 stickPhase.style.left = '46.5%';
                 msgDerrota();
                 esconder();
                 btnReset.style.display = 'inline-block';
-            }
-            else{
+            } else {
                 palavra.textContent = wordToGuess.join('')
                 checarPalavra(wordToGuess.join(''))
                 letterGuess.value = ''
@@ -193,17 +206,21 @@ letterGuess.addEventListener('keypress', (event) => {
     }
 });
 
+// Manipulador de eventos para adivinhar uma palavra
 campoPalavra.addEventListener('keypress', (event) => {
     keyName = event.key
-    if(keyName === 'Enter'){
-        if( !checarPalavra(campoPalavra.value) && campoPalavra.value != ''){
+
+    if (keyName === 'Enter') {
+        if (!checarPalavra(campoPalavra.value) && campoPalavra.value != '') {
             stickPhase.width = 256;
             stickPhase.src = `stickman/7.png`;
             stickBox.innerHTML = ""
             stickPhase.style.opacity = '0';
+
             setTimeout(function() {
                 stickPhase.style.opacity = "1";
             }, 10);
+
             stickBox.appendChild(stickPhase)
             stickPhase.style.left = '47.5%';
             msgDerrota();
@@ -213,74 +230,74 @@ campoPalavra.addEventListener('keypress', (event) => {
         }
     }
 });
-guessCampoBtn.addEventListener('click', (event) => {
-    if(!checarPalavra(campoPalavra.value) && campoPalavra.value != ''){
 
+// Manipulador de eventos para adivinhar uma palavra
+guessCampoBtn.addEventListener('click', (event) => {
+    if (!checarPalavra(campoPalavra.value) && campoPalavra.value != '') {
         stickPhase.width = 256;
         stickPhase.src = `stickman/7.png`;
         stickBox.innerHTML = ""
         stickPhase.style.opacity = '0';
+
         setTimeout(function() {
             stickPhase.style.opacity = "1";
         }, 10);
+
         stickBox.appendChild(stickPhase)
         stickPhase.style.left = '47.5%';
         msgDerrota();
         esconder();
         btnReset.style.display = 'inline-block';
-    }
-    else{
+    } else {
         palavra.textContent = wordToGuess.join('')
         letterGuess.value = ''
     }
 });
 
+// Manipulador de eventos para adivinhar uma letra
 guessBtn.addEventListener('click', (event) => {
-    if(letterGuess.value === '' || errors === 7) return
+    if (letterGuess.value === '' || errors === 7) return
     let k = 0, counter = 0;
-    geraPalavraDeAcordoComDificuldade().then(()=>{
-        for(let i = 0; i<randomWord.length; i++){
-            if (letterGuess.value.toLowerCase() === randomWord[i]){
+
+    geraPalavraDeAcordoComDificuldade().then(() => {
+        for (let i = 0; i < randomWord.length; i++) {
+            if (letterGuess.value.toLowerCase() === randomWord[i]) {
                 wordToGuess[k] = randomWord[i];
                 counter++;
             } else wordToGuess
             k += 2;
         }
-        if(counter === 0 && letterGuess.value != '') {
-    
+        if (counter === 0 && letterGuess.value != '') {
             const wrongParagraph = document.createElement('p');
             let p = document.querySelector('p');
             errors++;
+
             stickPhase.width = 256;
             stickPhase.src = `stickman/${errors}.png`;
             stickBox.innerHTML = ""
             stickBox.appendChild(stickPhase)
-    
+
             stickPhase.style.opacity = '0';
             setTimeout(function() {
                 stickPhase.style.opacity = "1";
             }, 10);
-    
-            if(wrongGuesses.contains(p)){
+
+            if (wrongGuesses.contains(p)) {
                 p.innerText += `, ${letterGuess.value}`
-            }else {
+            } else {
                 wrongGuesses.appendChild(wrongParagraph);
                 wrongParagraph.innerText += letterGuess.value
             }
         }
-        if(errors === 7){
+        if (errors === 7) {
             stickPhase.style.left = '47.5%';
             msgDerrota();
             esconder();
             btnReset.style.display = 'inline-block';
-        }
-        else{
+        } else {
             palavra.textContent = wordToGuess.join('')
             checarPalavra(wordToGuess.join(''))
             letterGuess.value = ''
         }
     })
 });
-
-
-
