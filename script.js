@@ -54,7 +54,7 @@ function checarPalavra(word) {
     geraPalavraDeAcordoComDificuldade().then(()=>{
         let k = 0, counter = 0;
         for (let i = 0; i < randomWord.length; i++) {
-            if(word[k] === randomWord[i]) counter++;
+            if(word === randomWord) counter = randomWord.length;
             k += 2;
         }
 
@@ -91,19 +91,27 @@ async function geraPalavraDeAcordoComDificuldade() {
         const data = await response.json();
         const candidateWord = data.word;
 
-        if (difficulty === 'easy') {
-            if (candidateWord.length < 3 || candidateWord.length > 5) {
-                return geraPalavraDeAcordoComDificuldade();
+        switch (difficulty) {
+            case 'easy':
+                if (candidateWord.length < 3 || candidateWord.length > 5) {
+                    return geraPalavraDeAcordoComDificuldade();
+                }
+                break;
+            case 'medium':
+                if (candidateWord.length < 6 || candidateWord.length > 8) {
+                    return geraPalavraDeAcordoComDificuldade();
+                }
+                break;
+            case 'hard':
+                if (candidateWord.length < 9) {
+                    return geraPalavraDeAcordoComDificuldade();
+                }
+                break;
+            default:
+                // Trate um caso em que difficulty não corresponda a 'easy', 'medium' ou 'hard' aqui, se necessário.
+                break;
             }
-        } else if (difficulty === 'medium') {
-            if (candidateWord.length < 6 || candidateWord.length > 8) {
-                return geraPalavraDeAcordoComDificuldade();
-            }
-        } else if (difficulty === 'hard') {
-            if (candidateWord.length < 9) {
-                return geraPalavraDeAcordoComDificuldade();
-            }
-        }
+            
         randomWord = candidateWord;
     } catch (error) {
         console.error('Erro:', error);
@@ -206,7 +214,6 @@ campoPalavra.addEventListener('keypress', (event) => {
     }
 });
 guessCampoBtn.addEventListener('click', (event) => {
-
     if(!checarPalavra(campoPalavra.value) && campoPalavra.value != ''){
 
         stickPhase.width = 256;
