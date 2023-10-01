@@ -14,29 +14,31 @@ const campoTryWord = document.getElementById('guessWordTry')
 const guessCampoBtn = document.getElementById('guessWordTry').querySelector('button');
 
 const sections = document.querySelectorAll('section')
-console.log(sections)
 
 const difficulties = document.getElementById('difficulty')
 const easyDifficulty = document.querySelector('.easy')
 const medDifficulty = document.querySelector('.medium')
-const hardDifficulty = document.querySelector('.hard')
+const loading = document.getElementById('loadingPage')
 
 let randomWord = '', wordToGuess, maxLetters, minLetters, errors = 0, difficulty;
 
 difficulties.addEventListener('click', async (e) => {
-    difficulty = e.target.className;
-    try {
-        await geraPalavraDeAcordoComDificuldade();
-        console.log(randomWord);
 
+    difficulty = e.target.className;
+    
+    try {
+        
+        await geraPalavraDeAcordoComDificuldade();
+        
         for (let i = 0; i < sections.length; i++) {
             sections[i].style.display = 'block';
         }
-        difficulties.style.display = 'none';
-
         for (let i = 0; i < randomWord.length; i++) {
             palavra.textContent += '_ ';
         }
+        console.log(randomWord)
+        loading.style.display = 'none'
+        difficulties.style.display = 'none';
         wordToGuess = palavra.firstChild.nodeValue.split("");
     } catch (error) {
         console.error('Erro:', error);
@@ -46,8 +48,14 @@ difficulties.addEventListener('click', async (e) => {
 
 
 function checarPalavra(word) {
-    geraPalavraAleatoria().then(()=>{
-        if(word.toLowerCase() === randomWord){
+    geraPalavraDeAcordoComDificuldade().then(()=>{
+        let k = 0, counter = 0;
+        for (let i = 0; i < randomWord.length; i++) {
+            if(word[k] === randomWord[i]) counter++;
+            k += 2;
+        }
+
+        if(counter === randomWord.length){
             setTimeout(() => {
                 palavra.innerHTML = `<p>${randomWord}</p><p style="color:green">Parabéns, você venceu!</p>`
                 esconder()
@@ -70,8 +78,9 @@ async function geraPalavraDeAcordoComDificuldade() {
         // Se a palavra já foi buscada antes, retorna a palavra armazenada
         return;
     }
-
     try {
+        loading.style.display = 'flex'
+        difficulties.style.display = 'none';
         const response = await fetch('https://api.dicionario-aberto.net/random');
         if (!response.ok) {
             throw new Error('Erro na solicitação da API');
@@ -104,7 +113,7 @@ function msgDerrota() {
     campoPalavra.value = ''
     wrongGuesses.style.display = 'none'
     setTimeout(() => {
-        geraPalavraAleatoria().then(() => {
+        geraPalavraDeAcordoComDificuldade().then(() => {
             return palavra.innerHTML += `<p style="color:red; background-color:rgba(0,0,0,0.25); padding:20px; width:100%; margin-top:20px">Wasted</p><p style="color:black">Palavra Correta: <span style="color:green">${randomWord}</span></p>`
         })
     }, 10)
@@ -118,13 +127,11 @@ function reset() {
     wrongGuesses.innerHTML = 'Adivinhações Erradas';
     letterGuess.value = ''
     stickBox.innerHTML = ''
-    wrongGuesses.style.display = 'block'
+    wrongGuesses.style.display = 'flex'
+    for (let i = 0; i < sections.length; i++) {
+        sections[i].style.display = 'none';
+    }
     difficulties.style.display = 'flex'
-    geraPalavraAleatoria().then(() => {
-        for (let letter of randomWord) {
-            palavra.textContent += '_ '
-        }
-    })
     exibe()
     btnReset.style.display = 'none';
 }
@@ -133,7 +140,7 @@ letterGuess.addEventListener('keypress', (event) => {
     const keyName = event.key;
     if(keyName === 'Enter' && errors < 7){
         let k = 0, counter = 0;
-        geraPalavraAleatoria().then(()=>{
+        geraPalavraDeAcordoComDificuldade().then(()=>{
             for(let i = 0; i<randomWord.length; i++){
                 if (letterGuess.value.toLowerCase() === randomWord[i]){
                     wordToGuess[k] = randomWord[i];
@@ -179,7 +186,7 @@ letterGuess.addEventListener('keypress', (event) => {
 campoPalavra.addEventListener('keypress', (event) => {
     keyName = event.key
     if(keyName === 'Enter'){
-        if(checarPalavra(campoPalavra.value) === false && campoPalavra.value != ''){
+        if( !checarPalavra(campoPalavra.value) && campoPalavra.value != ''){
             stickPhase.width = 256;
             stickPhase.src = `stickman/7.png`;
             stickBox.innerHTML = ""
@@ -222,7 +229,7 @@ guessCampoBtn.addEventListener('click', (event) => {
 guessBtn.addEventListener('click', (event) => {
     if(letterGuess.value === '' || errors === 7) return
     let k = 0, counter = 0;
-    geraPalavraAleatoria().then(()=>{
+    geraPalavraDeAcordoComDificuldade().then(()=>{
         for(let i = 0; i<randomWord.length; i++){
             if (letterGuess.value.toLowerCase() === randomWord[i]){
                 wordToGuess[k] = randomWord[i];

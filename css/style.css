@@ -140,7 +140,7 @@ button:not(:hover) {
     height: 95px;
 }
 
-#difficulty {
+#difficulty, #loadingPage {
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -150,13 +150,21 @@ button:not(:hover) {
 
 #difficulty ul {
     display: flex;
-    width: 100%;
+    width: 40%;
     padding: 0;
     list-style: none;
     flex-direction: column;
 }
 
+#difficulty h2 {
+    display: inline-block;
+    font-size: 2.4rem;
+    letter-spacing: 5px;
+    cursor: default;
+}
+
 #difficulty li {
+    border-radius: 360px;
     padding: 40px;
     width: 100%;
     text-align: center;
