@@ -17,7 +17,7 @@ Este é um simples jogo da forca desenvolvido em JavaScript. O objetivo do jogo 
 
 ## Uso da API de Dicionário
 
-Este jogo da forca faz uso de uma [API DE DICIONÁRIO]((https://api.dicionario-aberto.net/index.html) para obter palavras aleatórias para adivinhar.
+Este jogo da forca faz uso de uma [API DE DICIONÁRIO](https://api.dicionario-aberto.net/index.html) para obter palavras aleatórias para adivinhar.
 A API de dicionário é incorporada diretamente no código-fonte do jogo e é responsável por fornecer as palavras secretas para cada rodada.
 
 ### Como a API é Usada no Jogo
