@@ -18,7 +18,7 @@ const medDifficulty = document.querySelector('.medium')
 const loading = document.getElementById('loadingPage')
 
 // Variáveis de jogo
-let randomWord = '', wordToGuess, maxLetters, minLetters, errors = 0, difficulty;
+let randomWord = '', wordToGuess, maxLetters, minLetters, errors = 0, difficulty, wordValid = 1;
 
 // Manipulador de eventos para selecionar a dificuldade
 difficulties.addEventListener('click', async (e) => {
@@ -55,17 +55,17 @@ function checarPalavra(word) {
     geraPalavraDeAcordoComDificuldade().then(() => {
         let k = 0, counter = 0;
         for (let i = 0; i < randomWord.length; i++) {
-            if (word === randomWord) counter = randomWord.length;
+            if (word[k] === randomWord[i]) counter++;
             k += 2;
         }
 
-        if (counter === randomWord.length) {
+        if (counter === randomWord.length - 1 || word === randomWord) {
             setTimeout(() => {
-                palavra.innerHTML = `<p>${randomWord}</p><p style="color:green">Parabéns, você venceu!</p>`
                 esconder()
                 btnReset.style.display = 'inline-block'
+                palavra.innerHTML = `<p>${randomWord}</p><p style="color:green">Parabéns, você venceu!</p>`
             }, 10)
-        } else return false
+        } else wordValid = 0
     })
 }
 
@@ -80,10 +80,9 @@ function exibe() {
 
 // Função assíncrona para gerar uma palavra de acordo com a dificuldade
 async function geraPalavraDeAcordoComDificuldade() {
-    if (randomWord) {
+    if (randomWord)
         // Se a palavra já foi buscada antes, retorna a palavra armazenada
         return;
-    }
     try {
         loading.style.display = 'flex'
         difficulties.style.display = 'none';
@@ -158,8 +157,8 @@ letterGuess.addEventListener('keypress', (event) => {
     const keyName = event.key;
 
     if (keyName === 'Enter' && errors < 7) {
+        checarPalavra(wordToGuess.join(''))
         let k = 0, counter = 0;
-
         geraPalavraDeAcordoComDificuldade().then(() => {
             for (let i = 0; i < randomWord.length; i++) {
                 if (letterGuess.value.toLowerCase() === randomWord[i]) {
@@ -199,7 +198,6 @@ letterGuess.addEventListener('keypress', (event) => {
                 btnReset.style.display = 'inline-block';
             } else {
                 palavra.textContent = wordToGuess.join('')
-                checarPalavra(wordToGuess.join(''))
                 letterGuess.value = ''
             }
         })
@@ -208,10 +206,12 @@ letterGuess.addEventListener('keypress', (event) => {
 
 // Manipulador de eventos para adivinhar uma palavra
 campoPalavra.addEventListener('keypress', (event) => {
+
     keyName = event.key
 
     if (keyName === 'Enter') {
-        if (!checarPalavra(campoPalavra.value) && campoPalavra.value != '') {
+        checarPalavra(campoPalavra.value);
+        if (wordValid === 0 && campoPalavra.value != '') {
             stickPhase.width = 256;
             stickPhase.src = `stickman/7.png`;
             stickBox.innerHTML = ""
@@ -233,7 +233,8 @@ campoPalavra.addEventListener('keypress', (event) => {
 
 // Manipulador de eventos para adivinhar uma palavra
 guessCampoBtn.addEventListener('click', (event) => {
-    if (!checarPalavra(campoPalavra.value) && campoPalavra.value != '') {
+    checarPalavra(campoPalavra.value);
+    if (wordValid === 0 && campoPalavra.value != '') {
         stickPhase.width = 256;
         stickPhase.src = `stickman/7.png`;
         stickBox.innerHTML = ""
