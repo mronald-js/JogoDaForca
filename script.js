@@ -36,7 +36,6 @@ difficulties.addEventListener('click', async (e) => {
         for (let i = 0; i < randomWord.length; i++) {
             palavra.textContent += '_ ';
         }
-        console.log(randomWord)
         loading.style.display = 'none'
         difficulties.style.display = 'none';
         wordToGuess = palavra.firstChild.nodeValue.split("");
