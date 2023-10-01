@@ -41,10 +41,6 @@ Nenhum requisito especial é necessário para executar este projeto além de um 
 Esse projeto ainda pode evoluir com a adição de algumas funcionalidades, como por exemplo a adição de temas, score, a possibilidade de jogar com amigos como no gartic
 Por isso salve esse repositório, e caso tenha sugestões, o projeto certamente irá abraça-las
 
-## Licença
-
-Este projeto está sob a [Licença MIT](LICENSE.md) - consulte o arquivo LICENSE.md para obter mais detalhes.
-
 ## Contato
 
 Se você tiver alguma dúvida, sugestão ou quiser entrar em contato, sinta-se à vontade para me encontrar no GitHub [@mronald-js](https://github.com/mronald-js).
