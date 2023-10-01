@@ -138,6 +138,7 @@ button:not(:hover) {
 
 #white-space {
     height: 95px;
+    display: none;
 }
 
 #difficulty, #loadingPage {
@@ -146,6 +147,10 @@ button:not(:hover) {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+#contact {
+    display: none;
 }
 
 #difficulty ul {

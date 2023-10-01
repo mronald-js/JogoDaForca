@@ -14,6 +14,7 @@ const campoTryWord = document.getElementById('guessWordTry')
 const guessCampoBtn = document.getElementById('guessWordTry').querySelector('button');
 
 const sections = document.querySelectorAll('section')
+const contact = document.getElementById('contact')
 
 const difficulties = document.getElementById('difficulty')
 const easyDifficulty = document.querySelector('.easy')
@@ -25,22 +26,25 @@ let randomWord = '', wordToGuess, maxLetters, minLetters, errors = 0, difficulty
 difficulties.addEventListener('click', async (e) => {
 
     difficulty = e.target.className;
-    
-    try {
-        
-        await geraPalavraDeAcordoComDificuldade();
-        
-        for (let i = 0; i < sections.length; i++) {
-            sections[i].style.display = 'block';
+    if(difficulty === 'easy' || difficulty === 'medium' || difficulty === 'hard'){
+        try {
+            
+            await geraPalavraDeAcordoComDificuldade();
+            
+            for (let i = 0; i < sections.length; i++) {
+                sections[i].style.display = 'block';
+            }
+            for (let i = 0; i < randomWord.length; i++) {
+                palavra.textContent += '_ ';
+            }
+            loading.style.display = 'none'
+            difficulties.style.display = 'none';
+            contact.style.display = 'flex'
+            document.getElementById('white-space').style.display = 'block'
+            wordToGuess = palavra.firstChild.nodeValue.split("");
+        } catch (error) {
+            console.error('Erro:', error);
         }
-        for (let i = 0; i < randomWord.length; i++) {
-            palavra.textContent += '_ ';
-        }
-        loading.style.display = 'none'
-        difficulties.style.display = 'none';
-        wordToGuess = palavra.firstChild.nodeValue.split("");
-    } catch (error) {
-        console.error('Erro:', error);
     }
 });
 
@@ -100,7 +104,6 @@ async function geraPalavraDeAcordoComDificuldade() {
                 return geraPalavraDeAcordoComDificuldade();
             }
         }
-
         randomWord = candidateWord;
     } catch (error) {
         console.error('Erro:', error);
@@ -168,7 +171,7 @@ letterGuess.addEventListener('keypress', (event) => {
                 }
             }
             if(errors === 7){
-                stickPhase.style.left = '47.5%';
+                stickPhase.style.left = '46.5%';
                 msgDerrota();
                 esconder();
                 btnReset.style.display = 'inline-block';

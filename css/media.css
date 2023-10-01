@@ -5,7 +5,17 @@
     }
     body {
         font-size: 1.4rem;
+        height: 100vh;
     }
+
+    nav ul {
+        padding: 0;
+    }
+
+    #icons {
+        padding: 0;
+    }
+
     #guess button {
         border-radius: 0;
         padding: 7.5px;
@@ -13,9 +23,9 @@
     }
 
     #boneco img {
-        top: 90px;
+        top: 80px;
         right: 33%;
-        left: 23%;
+        left: 33%;
         position: absolute;
     }
 
@@ -25,9 +35,13 @@
         cursor: default;
     }
 
+    #difficulty {
+        justify-content: center;
+    }
+
     #difficulty ul {
         display: flex;
-        width: 80%;
+        width: 60%;
         padding: 0;
         list-style: none;
         flex-direction: column;
