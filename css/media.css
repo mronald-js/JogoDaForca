@@ -19,6 +19,20 @@
         position: absolute;
     }
 
+    #difficulty h2 {
+        font-size: 1.8rem;
+        text-align: center;
+        cursor: default;
+    }
+
+    #difficulty ul {
+        display: flex;
+        width: 80%;
+        padding: 0;
+        list-style: none;
+        flex-direction: column;
+    }
+
     label {
         display: flex;
         align-items: center;
