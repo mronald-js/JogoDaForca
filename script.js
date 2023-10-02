@@ -58,7 +58,6 @@ difficulties.addEventListener('click', async (e) => {
 
 theme.addEventListener('click', (e) => {
     if( document.body.style.backgroundColor != 'black' ) {
-
         document.body.style.backgroundColor = 'black'
         difficulties.querySelector('h2').style.color = 'white'
         document.body.style.color = 'white'
@@ -69,9 +68,11 @@ theme.addEventListener('click', (e) => {
         document.getElementById('Title').querySelector('h1').style.color = 'black'
         document.getElementById('gallow').querySelector('img').src = 'icons/gallowWhite.png'
         stickPhase.style.filter = 'invert(100%)'
+        document.querySelector('.loading').style.backgroundColor = 'white'
         
     } else {
         document.getElementById('icons').style.filter = 'invert(0%)'
+        document.querySelector('.loading').style.backgroundColor = 'transparent'
         theme.style.filter = 'invert(0%)'
         document.body.style.color = 'black'
         stickPhase.style.filter = 'invert(0%)'
