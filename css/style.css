@@ -18,6 +18,7 @@ body::-webkit-scrollbar-thumb {
 body {
     font-size: 1.6rem;
     min-height: 100vh;
+    padding-top: 10px;
     width: 100%;
     padding-bottom: 2rem;
     scrollbar-width: thin; /* Tornar a barra de rolagem visível em navegadores compatíveis */
@@ -32,10 +33,11 @@ nav {
 nav ul {
     display: flex;
     list-style: none;
+    margin-right: 10px;
 }
 
 #icons {
-    padding-right: 40px;
+    margin-right: 60px;
 }
 
 a {
@@ -43,6 +45,19 @@ a {
     text-decoration: none;
     padding: 5px;
     font-size: 1.3rem;
+}
+
+aside {
+    position: absolute;
+    display: inline-block;
+    right: 0;
+    max-width: 64px;
+}
+
+aside img{
+    margin: 0 10px;
+    cursor: pointer;
+    width: 50%;
 }
 
 a:hover {

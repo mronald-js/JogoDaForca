@@ -16,25 +16,31 @@ const difficulties = document.getElementById('difficulty')
 const easyDifficulty = document.querySelector('.easy')
 const medDifficulty = document.querySelector('.medium')
 const loading = document.getElementById('loadingPage')
+const theme = document.getElementById('theme-color')
 
 // Variáveis de jogo
 let randomWord = '', wordToGuess, maxLetters, minLetters, errors = 0, difficulty, wordValid = 1;
 
 // Manipulador de eventos para selecionar a dificuldade
 difficulties.addEventListener('click', async (e) => {
+
     difficulty = e.target.className;
 
     // Verifique se a dificuldade é 'easy', 'medium' ou 'hard'
     if (difficulty === 'easy' || difficulty === 'medium' || difficulty === 'hard') {
         try {
-            await geraPalavraDeAcordoComDificuldade();
 
+            
+            await geraPalavraDeAcordoComDificuldade();
+            
             // Exibe as seções relevantes e oculta o carregamento e as dificuldades
             for (let i = 0; i < sections.length; i++)
-                sections[i].style.display = 'block';
-
+            sections[i].style.display = 'block';
+        
+            theme.style.marginTop = '10px'
             loading.style.display = 'none'
             difficulties.style.display = 'none';
+            contact.style.display = 'flex';
             contact.style.display = 'flex'
             document.getElementById('white-space').style.display = 'block'
 
@@ -50,6 +56,34 @@ difficulties.addEventListener('click', async (e) => {
     }
 });
 
+theme.addEventListener('click', (e) => {
+    if( document.body.style.backgroundColor != 'black' ) {
+
+        document.body.style.backgroundColor = 'black'
+        difficulties.querySelector('h2').style.color = 'white'
+        document.body.style.color = 'white'
+        theme.style.filter = 'invert(100%)'
+        document.getElementById('icons').style.filter = 'invert(100%)'
+        document.getElementById('contact').querySelector('a').style.color = 'white'
+        document.getElementById('Title').style.backgroundColor = 'rgba(255,255,255,0.8)'
+        document.getElementById('Title').querySelector('h1').style.color = 'black'
+        document.getElementById('gallow').querySelector('img').src = 'icons/gallowWhite.png'
+        stickPhase.style.filter = 'invert(100%)'
+        
+    } else {
+        document.getElementById('icons').style.filter = 'invert(0%)'
+        theme.style.filter = 'invert(0%)'
+        document.body.style.color = 'black'
+        stickPhase.style.filter = 'invert(0%)'
+        difficulties.querySelector('h2').style.color = 'black'
+        document.getElementById('contact').querySelector('a').style.color = 'black'
+        document.body.style.backgroundColor = 'white'
+        document.getElementById('Title').querySelector('h1').style.color = 'white'
+        document.getElementById('gallow').querySelector('img').src = 'icons/gallowDark.png'
+        document.getElementById('Title').style.backgroundColor = 'rgba(0, 0, 0, 0.65)'
+    }
+})
+
 // Função para verificar uma letra adivinhada
 function checarPalavra(word) {
     geraPalavraDeAcordoComDificuldade().then(() => {
@@ -59,7 +93,7 @@ function checarPalavra(word) {
             k += 2;
         }
 
-        if (counter === randomWord.length - 1 || word === randomWord) {
+        if (counter === randomWord.length || word === randomWord) {
             setTimeout(() => {
                 esconder()
                 btnReset.style.display = 'inline-block'
@@ -129,7 +163,7 @@ function msgDerrota() {
     wrongGuesses.style.display = 'none'
     setTimeout(() => {
         geraPalavraDeAcordoComDificuldade().then(() => {
-            return palavra.innerHTML += `<p style="color:red; background-color:rgba(0,0,0,0.25); padding:20px; width:100%; margin-top:20px">Wasted</p><p style="color:black">Palavra Correta: <span style="color:green">${randomWord}</span></p>`
+            return palavra.innerHTML += `<p style="color:red; background-color:rgba(0,0,0,0.25); padding:20px; width:100%; margin-top:20px">Wasted</p><p>Palavra Correta: <span style="color:green">${randomWord}</span></p>`
         })
     }, 10)
 }
@@ -148,6 +182,7 @@ function reset() {
         sections[i].style.display = 'none';
     }
     difficulties.style.display = 'flex'
+    contact.style.display = 'none'
     exibe()
     btnReset.style.display = 'none';
 }
