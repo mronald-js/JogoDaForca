@@ -1,3 +1,4 @@
+/* Estilizações gerais */
 * {
     margin: 0;
     box-sizing: border-box;
@@ -47,6 +48,11 @@ a {
     font-size: 1.3rem;
 }
 
+a:hover {
+    color: rgb(129, 12, 12);
+    transition: ease 0.45s;
+}
+
 aside {
     position: absolute;
     display: inline-block;
@@ -58,11 +64,6 @@ aside img{
     margin: 0 10px;
     cursor: pointer;
     width: 50%;
-}
-
-a:hover {
-    color: rgb(129, 12, 12);
-    transition: ease 0.45s;
 }
 
 img, p {
@@ -77,7 +78,7 @@ img, p {
     background-color: rgba(0, 0, 0, 0.65);
 }
 
-
+/* Estilização de interface dos elementos do jogo */
 #gameInterface {
     text-align: center;
     padding: 25px;
@@ -100,6 +101,7 @@ img, p {
     position: absolute;
 }
 
+/* Estilização dos inputs */
 input {
     padding: 2.5px;
     font-size: 1.6rem;
@@ -115,6 +117,7 @@ input {
     margin: 10px;
 }
 
+/* Estilizações do botão de reset */
 #reset {
     display: none;
     border-radius: 0;
@@ -129,6 +132,11 @@ input {
     padding: 30px;
 }
 
+#contact {
+    display: none;
+}
+
+/* Estilização de botões */
 button {
     padding: 15px;
     border-radius: 20px;
@@ -151,10 +159,8 @@ button:not(:hover) {
     transition: ease 0.45s;
 }
 
-#white-space {
-    height: 95px;
-    display: none;
-}
+
+/* Estilização das dificuldades */
 
 #difficulty, #loadingPage {
     height: 100vh;
@@ -162,10 +168,6 @@ button:not(:hover) {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-}
-
-#contact {
-    display: none;
 }
 
 #difficulty ul {
@@ -216,7 +218,13 @@ section:not(#difficulty){
 #difficulty li:not(:hover) {
     transition: ease 0.45s;
 }
+/* Seção em branca cujo propósito é forncer um gap para o footer sempre */
+#white-space {
+    height: 95px;
+    display: none;
+}
 
+/* Estilização para adivinhações erradas */
 #wrongGuesses {
     /* display: none; */
     padding: 20px;
@@ -235,8 +243,9 @@ section:not(#difficulty){
     font-size: 1.6rem;
 }
 
+
+/* Estilização do rodapé */
 footer {
-    /* flex-shrink: 0; */
     position: fixed;
     bottom: 0;
     width: 100%;
